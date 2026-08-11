@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Staff Dashboard</title>
+</head>
+
+<body>
+
+<h1>Smart Complaint Management System</h1>
+
+<h2>Staff Dashboard</h2>
+
+<p>Welcome, {{ request.user.username }}</p>
+
+<hr>
+
+<h3>Complaint Summary</h3>
+
+<p>Total Complaints: {{ total }}</p>
+<p>Pending: {{ pending }}</p>
+<p>In Progress: {{ progress }}</p>
+<p>Resolved: {{ resolved }}</p>
+
+<hr>
+
+<h3>Complaints</h3>
+
+<table border="1" cellpadding="10">
+
+<tr>
+    <th>ID</th>
+    <th>User</th>
+    <th>Category</th>
+    <th>Status</th>
+    <th>Action</th>
+</tr>
+
+{% for complaint in complaints %}
+
+<tr>
+    <td>{{ complaint.id }}</td>
+    <td>{{ complaint.user.username }}</td>
+    <td>{{ complaint.category }}</td>
+    <td>{{ complaint.status }}</td>
+
+    <td>
+        <a href="/complaint/{{ complaint.id }}/edit/">
+            Manage
+        </a>
+    </td>
+</tr>
+
+{% empty %}
+
+<tr>
+    <td colspan="5">No complaints available.</td>
+</tr>
+
+{% endfor %}
+
+</table>
+
+</body>
+</html>

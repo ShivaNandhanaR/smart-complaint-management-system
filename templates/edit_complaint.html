@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Manage Complaint</title>
+
+</head>
+
+<body>
+
+<h1>
+    Manage CMP-{{ complaint.id }}
+</h1>
+
+<p>
+    <strong>User:</strong>
+    {{ complaint.user.username }}
+</p>
+
+<p>
+    <strong>Category:</strong>
+    {{ complaint.category }}
+</p>
+
+<p>
+    <strong>Location:</strong>
+    {{ complaint.location }}
+</p>
+
+<p>
+    <strong>Description:</strong>
+    {{ complaint.description }}
+</p>
+
+{% if complaint.image %}
+
+<p>
+    <strong>Complaint Image:</strong>
+</p>
+
+<img
+    src="{{ complaint.image.url }}"
+    width="300"
+>
+
+{% endif %}
+
+<hr>
+
+<form method="POST">
+
+    {% csrf_token %}
+
+    <label>Assign Staff</label>
+
+    <select name="assigned_staff">
+
+        <option value="">
+            Not Assigned
+        </option>
+
+        {% for staff in staff_users %}
+
+        <option
+            value="{{ staff.id }}"
+            {% if complaint.assigned_staff.id == staff.id %}
+            selected
+            {% endif %}
+        >
+
+            {{ staff.username }}
+
+        </option>
+
+        {% endfor %}
+
+    </select>
+
+    <br><br>
+
+    <label>Status</label>
+
+    <select name="status">
+
+        <option value="Submitted">
+            Submitted
+        </option>
+
+        <option value="Assigned">
+            Assigned
+        </option>
+
+        <option value="In Progress">
+            In Progress
+        </option>
+
+        <option value="Resolved">
+            Resolved
+        </option>
+
+        <option value="Closed">
+            Closed
+        </option>
+
+    </select>
+
+    <br><br>
+
+    <button type="submit">
+        Update Complaint
+    </button>
+
+</form>
+
+</body>
+
+</html>
