@@ -1,128 +1,411 @@
-<!DOCTYPE html>
-<html>
+{% extends "base.html" %}
 
-<head>
+{% block content %}
 
-    <title>Submit Complaint</title>
+<style>
 
-</head>
+    .complaint-wrapper {
+        max-width: 900px;
+        margin: 20px auto;
+    }
 
-<body>
+    .complaint-card {
+        background: #ffffff;
+        border-radius: 20px;
+        padding: 35px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    }
 
-<h1>Submit Complaint</h1>
+    .page-title {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        color: #172554;
+        margin-bottom: 8px;
+    }
 
-<form
-    method="POST"
-    enctype="multipart/form-data"
->
+    .title-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 13px;
+        background: #e8f0ff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 23px;
+    }
 
-    {% csrf_token %}
+    .subtitle {
+        color: #64748b;
+        margin-bottom: 28px;
+    }
 
-    <label>Category</label>
+    .form-label {
+        font-weight: 600;
+        color: #1e293b;
+        margin-bottom: 8px;
+    }
 
-    <select name="category" required>
+    .required {
+        color: #dc2626;
+    }
 
-        <option value="">
-            Select Category
-        </option>
+    .form-control,
+    .form-select {
+        border: 1px solid #dbe3ef;
+        border-radius: 12px;
+        padding: 13px 15px;
+        font-size: 15px;
+    }
 
-        <option value="Electrical">
-            Electrical
-        </option>
+    .form-control:focus,
+    .form-select:focus {
+        border-color: #2563eb;
+        box-shadow: 0 0 0 3px rgba(37,99,235,0.12);
+    }
 
-        <option value="Plumbing">
-            Plumbing
-        </option>
+    textarea.form-control {
+        min-height: 150px;
+        resize: vertical;
+    }
 
-        <option value="Cleaning">
-            Cleaning
-        </option>
+    .upload-box {
+        border: 2px dashed #cbd5e1;
+        border-radius: 13px;
+        padding: 20px;
+        background: #f8fafc;
+    }
 
-        <option value="WiFi">
-            WiFi
-        </option>
+    .priority-box {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+    }
 
-        <option value="Furniture">
-            Furniture
-        </option>
+    .priority-option {
+        flex: 1;
+        min-width: 120px;
+    }
 
-        <option value="Other">
-            Other
-        </option>
+    .priority-option input {
+        display: none;
+    }
 
-    </select>
+    .priority-option label {
+        display: block;
+        text-align: center;
+        padding: 12px;
+        border: 1px solid #dbe3ef;
+        border-radius: 10px;
+        cursor: pointer;
+        font-weight: 600;
+        background: white;
+    }
 
-    <br><br>
+    .priority-option input:checked + label {
+        background: #2563eb;
+        color: white;
+        border-color: #2563eb;
+    }
 
-    <label>Location</label>
+    .button-row {
+        display: flex;
+        gap: 12px;
+        margin-top: 30px;
+    }
 
-    <input
-        type="text"
-        name="location"
-        required
-    >
+    .submit-btn {
+        background: #2563eb;
+        color: white;
+        border: none;
+        border-radius: 11px;
+        padding: 13px 25px;
+        font-weight: 600;
+        cursor: pointer;
+    }
 
-    <br><br>
+    .submit-btn:hover {
+        background: #1d4ed8;
+    }
 
-    <label>Description</label>
+    .cancel-btn {
+        background: #f1f5f9;
+        color: #334155;
+        border-radius: 11px;
+        padding: 13px 25px;
+        text-decoration: none;
+        font-weight: 600;
+    }
 
-    <br>
+    .cancel-btn:hover {
+        background: #e2e8f0;
+    }
 
-    <textarea
-        name="description"
-        rows="5"
-        cols="50"
-        required
-    ></textarea>
+    .info-box {
+        background: #f8fafc;
+        border-left: 4px solid #2563eb;
+        padding: 14px 18px;
+        border-radius: 10px;
+        margin-bottom: 25px;
+        color: #475569;
+        font-size: 14px;
+    }
 
-    <br><br>
+</style>
 
-    <label>Priority</label>
 
-    <select name="priority">
+<div class="complaint-wrapper">
 
-        <option value="Low">
-            Low
-        </option>
+    <div class="complaint-card">
 
-        <option value="Medium">
-            Medium
-        </option>
+        <!-- Heading -->
 
-        <option value="High">
-            High
-        </option>
+        <div class="page-title">
 
-        <option value="Critical">
-            Critical
-        </option>
+            <div class="title-icon">
+                📝
+            </div>
 
-    </select>
+            <div>
+                <h2 class="mb-0">Submit a Complaint</h2>
+            </div>
 
-    <br><br>
+        </div>
 
-    <label>Upload Image</label>
+        <p class="subtitle">
+            Report an issue and our staff will review it as soon as possible.
+        </p>
 
-    <input
-        type="file"
-        name="image"
-        accept="image/*"
-    >
 
-    <br><br>
+        <!-- Information -->
 
-    <button type="submit">
-        Submit Complaint
-    </button>
+        <div class="info-box">
+            💡 Please provide accurate details including the location
+            and description of the problem.
+        </div>
 
-</form>
 
-<br>
+        <!-- FORM -->
 
-<a href="/">
-    Back to Dashboard
-</a>
+        <form method="POST" enctype="multipart/form-data">
 
-</body>
+            {% csrf_token %}
 
-</html>
+
+            <!-- CATEGORY -->
+
+            <div class="mb-4">
+
+                <label class="form-label">
+                    Complaint Category
+                    <span class="required">*</span>
+                </label>
+
+                <select
+                    name="category"
+                    class="form-select"
+                    required
+                >
+
+                    <option value="">
+                        Select a category
+                    </option>
+
+                    <option value="Water">
+                        💧 Water
+                    </option>
+
+                    <option value="Electricity">
+                        ⚡ Electricity
+                    </option>
+
+                    <option value="Road">
+                        🛣️ Road
+                    </option>
+
+                    <option value="Garbage">
+                        🗑️ Garbage / Waste
+                    </option>
+
+                    <option value="Street Light">
+                        💡 Street Light
+                    </option>
+
+                    <option value="Drainage">
+                        🚰 Drainage
+                    </option>
+
+                    <option value="Public Safety">
+                        🛡️ Public Safety
+                    </option>
+
+                    <option value="Other">
+                        📌 Other
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- LOCATION -->
+
+            <div class="mb-4">
+
+                <label class="form-label">
+                    Location
+                    <span class="required">*</span>
+                </label>
+
+                <input
+                    type="text"
+                    name="location"
+                    class="form-control"
+                    placeholder="Enter the location of the issue"
+                    required
+                >
+
+            </div>
+
+
+            <!-- DESCRIPTION -->
+
+            <div class="mb-4">
+
+                <label class="form-label">
+                    Complaint Description
+                    <span class="required">*</span>
+                </label>
+
+                <textarea
+                    name="description"
+                    class="form-control"
+                    placeholder="Describe the problem in detail..."
+                    required
+                ></textarea>
+
+                <small class="text-muted">
+                    Mention important details such as what happened,
+                    where it happened and when you noticed it.
+                </small>
+
+            </div>
+
+
+            <!-- PRIORITY -->
+
+            <div class="mb-4">
+
+                <label class="form-label">
+                    Priority
+                </label>
+
+                <div class="priority-box">
+
+                    <div class="priority-option">
+
+                        <input
+                            type="radio"
+                            name="priority"
+                            value="Low"
+                            id="low"
+                        >
+
+                        <label for="low">
+                            🟢 Low
+                        </label>
+
+                    </div>
+
+
+                    <div class="priority-option">
+
+                        <input
+                            type="radio"
+                            name="priority"
+                            value="Medium"
+                            id="medium"
+                            checked
+                        >
+
+                        <label for="medium">
+                            🟡 Medium
+                        </label>
+
+                    </div>
+
+
+                    <div class="priority-option">
+
+                        <input
+                            type="radio"
+                            name="priority"
+                            value="High"
+                            id="high"
+                        >
+
+                        <label for="high">
+                            🔴 High
+                        </label>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- IMAGE -->
+
+            <div class="mb-4">
+
+                <label class="form-label">
+                    Upload Image
+                    <small class="text-muted">(Optional)</small>
+                </label>
+
+                <div class="upload-box">
+
+                    <input
+                        type="file"
+                        name="image"
+                        class="form-control"
+                        accept="image/*"
+                    >
+
+                    <small class="text-muted">
+                        Upload an image related to the complaint if available.
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <!-- BUTTONS -->
+
+            <div class="button-row">
+
+                <button
+                    type="submit"
+                    class="submit-btn"
+                >
+                    🚀 Submit Complaint
+                </button>
+
+                <a
+                    href="{% url 'dashboard' %}"
+                    class="cancel-btn"
+                >
+                    Cancel
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}
